@@ -1,4 +1,4 @@
-package org.cursotesting;
+package org.cursotesting.bookcollection;
 
 import org.cursotesting.entidades.Book;
 import org.cursotesting.entidades.BookCollection;
@@ -7,7 +7,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class BookCollectionTest {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class FindTest {
     @Test
     public void shouldFindABookByISBN()
     {
@@ -18,8 +23,7 @@ public class BookCollectionTest {
                 new Book(isbnToLocate, "un titulo 2", "un autor 2"),
                 new Book("un-isbn-3", "un titulo 3", "un autor 3"),
         }));
-        books.find(isbnToLocate)
-                .forEach((Book book) -> Assertions.assertEquals(book.getISBN(), isbnToLocate));
+        books.find(isbnToLocate).forEach((Book book) -> assertThat(isbnToLocate, is(equalTo(book.getISBN()))));
     }
     @Test
     public void shouldFindABookByTitle() {
@@ -30,7 +34,7 @@ public class BookCollectionTest {
                 new Book("un-isbn-3", titleToLocate, "un autor 3")
         }));
         books.find(titleToLocate)
-                .forEach((Book book) -> Assertions.assertEquals(book.getTitle(), titleToLocate));
+                .forEach((Book book) -> assertEquals(book.getTitle(), titleToLocate));
     }
 
     @Test
@@ -47,6 +51,6 @@ public class BookCollectionTest {
                 new Book("un-isbn-2", "un titulo 2", "un autor 2"),
                 new Book("un-isbn-3", "un titulo 3", "un autor 3"),
         }));
-        Assertions.assertTrue(books.find(isbnToLocate).isEmpty());
+        assertThat(books.find(isbnToLocate).isEmpty(), is(true));
     }
 }
